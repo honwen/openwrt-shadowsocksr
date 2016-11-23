@@ -7,13 +7,15 @@
 
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=shadowsocks-libev
+PKG_NAME:=shadowsocksr-libev
 PKG_VERSION:=2.5.6
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://github.com/shadowsocks/openwrt-shadowsocks/releases/download/v$(PKG_VERSION)
-PKG_MD5SUM:=bb99e090640c8af8d7da961a6230c70b
+PKG_SOURCE_URL:=https://github.com/breakwa11/shadowsocks-libev.git
+PKG_SOURCE_PROTO:=git
+PKG_SOURCE_VERSION:=d022e3177c4bbcd3a13dbb41aa3c2a7dbf50a672
+PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
 
 PKG_LICENSE:=GPLv3
 PKG_LICENSE_FILES:=LICENSE
@@ -28,31 +30,31 @@ PKG_BUILD_PARALLEL:=1
 
 include $(INCLUDE_DIR)/package.mk
 
-define Package/shadowsocks-libev/Default
+define Package/shadowsocksr-libev/Default
 	SECTION:=net
 	CATEGORY:=Network
 	TITLE:=Lightweight Secured Socks5 Proxy $(2)
-	URL:=https://github.com/shadowsocks/shadowsocks-libev
+	URL:=https://github.com/shadowsocksr/shadowsocksr-libev
 	VARIANT:=$(1)
 	DEPENDS:=$(3) +libpcre +libpthread
 endef
 
-Package/shadowsocks-libev = $(call Package/shadowsocks-libev/Default,openssl,(OpenSSL),+libopenssl +zlib)
-Package/shadowsocks-libev-server = $(Package/shadowsocks-libev)
-Package/shadowsocks-libev-mbedtls = $(call Package/shadowsocks-libev/Default,mbedtls,(mbedTLS),+libmbedtls)
-Package/shadowsocks-libev-server-mbedtls = $(Package/shadowsocks-libev-mbedtls)
-Package/shadowsocks-libev-polarssl = $(call Package/shadowsocks-libev/Default,polarssl,(PolarSSL),+libpolarssl)
-Package/shadowsocks-libev-server-polarssl = $(Package/shadowsocks-libev-polarssl)
+Package/shadowsocksr-libev = $(call Package/shadowsocksr-libev/Default,openssl,(OpenSSL),+libopenssl +zlib)
+Package/shadowsocksr-libev-server = $(Package/shadowsocksr-libev)
+Package/shadowsocksr-libev-mbedtls = $(call Package/shadowsocksr-libev/Default,mbedtls,(mbedTLS),+libmbedtls)
+Package/shadowsocksr-libev-server-mbedtls = $(Package/shadowsocksr-libev-mbedtls)
+Package/shadowsocksr-libev-polarssl = $(call Package/shadowsocksr-libev/Default,polarssl,(PolarSSL),+libpolarssl)
+Package/shadowsocksr-libev-server-polarssl = $(Package/shadowsocksr-libev-polarssl)
 
-define Package/shadowsocks-libev/description
-Shadowsocks-libev is a lightweight secured socks5 proxy for embedded devices and low end boxes.
+define Package/shadowsocksr-libev/description
+shadowsocksr-libev is a lightweight secured socks5 proxy for embedded devices and low end boxes.
 endef
 
-Package/shadowsocks-libev-server/description = $(Package/shadowsocks-libev/description)
-Package/shadowsocks-libev-mbedtls/description = $(Package/shadowsocks-libev/description)
-Package/shadowsocks-libev-server-mbedtls/description = $(Package/shadowsocks-libev/description)
-Package/shadowsocks-libev-polarssl/description = $(Package/shadowsocks-libev/description)
-Package/shadowsocks-libev-server-polarssl/description = $(Package/shadowsocks-libev/description)
+Package/shadowsocksr-libev-server/description = $(Package/shadowsocksr-libev/description)
+Package/shadowsocksr-libev-mbedtls/description = $(Package/shadowsocksr-libev/description)
+Package/shadowsocksr-libev-server-mbedtls/description = $(Package/shadowsocksr-libev/description)
+Package/shadowsocksr-libev-polarssl/description = $(Package/shadowsocksr-libev/description)
+Package/shadowsocksr-libev-server-polarssl/description = $(Package/shadowsocksr-libev/description)
 
 CONFIGURE_ARGS += --disable-ssp --disable-documentation --disable-assert
 
@@ -64,25 +66,27 @@ ifeq ($(BUILD_VARIANT),polarssl)
 	CONFIGURE_ARGS += --with-crypto-library=polarssl
 endif
 
-define Package/shadowsocks-libev/install
+define Package/shadowsocksr-libev/install
 	$(INSTALL_DIR) $(1)/usr/bin
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/src/ss-{local,redir,tunnel} $(1)/usr/bin
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/src/ss-local  $(1)/usr/bin/ssr-local
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/src/ss-redir  $(1)/usr/bin/ssr-redir
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/src/ss-tunnel $(1)/usr/bin/ssr-tunnel
 endef
 
-Package/shadowsocks-libev-mbedtls/install = $(Package/shadowsocks-libev/install)
-Package/shadowsocks-libev-polarssl/install = $(Package/shadowsocks-libev/install)
+Package/shadowsocksr-libev-mbedtls/install = $(Package/shadowsocksr-libev/install)
+Package/shadowsocksr-libev-polarssl/install = $(Package/shadowsocksr-libev/install)
 
-define Package/shadowsocks-libev-server/install
+define Package/shadowsocksr-libev-server/install
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/src/ss-server $(1)/usr/bin
 endef
 
-Package/shadowsocks-libev-server-mbedtls/install = $(Package/shadowsocks-libev-server/install)
-Package/shadowsocks-libev-server-polarssl/install = $(Package/shadowsocks-libev-server/install)
+Package/shadowsocksr-libev-server-mbedtls/install = $(Package/shadowsocksr-libev-server/install)
+Package/shadowsocksr-libev-server-polarssl/install = $(Package/shadowsocksr-libev-server/install)
 
-$(eval $(call BuildPackage,shadowsocks-libev))
-$(eval $(call BuildPackage,shadowsocks-libev-server))
-$(eval $(call BuildPackage,shadowsocks-libev-mbedtls))
-$(eval $(call BuildPackage,shadowsocks-libev-server-mbedtls))
-$(eval $(call BuildPackage,shadowsocks-libev-polarssl))
-$(eval $(call BuildPackage,shadowsocks-libev-server-polarssl))
+$(eval $(call BuildPackage,shadowsocksr-libev))
+$(eval $(call BuildPackage,shadowsocksr-libev-server))
+$(eval $(call BuildPackage,shadowsocksr-libev-mbedtls))
+$(eval $(call BuildPackage,shadowsocksr-libev-server-mbedtls))
+$(eval $(call BuildPackage,shadowsocksr-libev-polarssl))
+$(eval $(call BuildPackage,shadowsocksr-libev-server-polarssl))
