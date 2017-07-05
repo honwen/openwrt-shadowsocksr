@@ -1,8 +1,6 @@
 ShadowsocksR-libev for OpenWrt
 ===
 
-[![Download][B]][2]  
-
 简介
 ---
 
@@ -25,15 +23,6 @@ ShadowsocksR-libev for OpenWrt
            └── ssr-tunnel      // 提供端口转发, 可用于 DNS 查询
    ```
 
- - shadowsocks-libev-server
-
-   ```
-   服务端/
-   └── usr/
-       └── bin/
-           └── ss-server      // 服务端可执行文件
-   ```
-
 编译
 ---
 
@@ -50,12 +39,12 @@ ShadowsocksR-libev for OpenWrt
      ./scripts/feeds update base packages
      ./scripts/feeds install zlib libopenssl libpolarssl libmbedtls libpcre
      rm -rf package/feeds/base/mbedtls/patches
-   # 获取 shadowsocks-libev Makefile
-   git clone https://github.com/chenhw2/openwrt-shadowsocks.git package/shadowsocks-libev
-   # 选择要编译的包 Network -> shadowsocks-libev
+   # 获取 shadowsocksr-libev Makefile
+   git clone https://github.com/chenhw2/openwrt-shadowsocksr.git package/feeds/shadowsocksr-libev
+   # 选择要编译的包 Network -> shadowsocksr-libev
    make menuconfig
    # 开始编译
-   make package/shadowsocksr-libev/compile V=99
+   make package/feeds/shadowsocksr-libev/compile V=99
    ```
 
 配置
@@ -72,17 +61,15 @@ ShadowsocksR-libev for OpenWrt
    password       | 字符串     | 服务端设置的密码
    method         | 字符串     | 加密方式, [详情参考][E]
    timeout        | 数值       | 超时时间（秒）, 默认 60
-   fast_open      | 布尔值     | 是否启用 [TCP-Fast-Open][F], 只适用于 ss-local
+   fast_open      | 布尔值     | 是否启用 [TCP-Fast-Open][F], 只适用于 ssr-local
    nofile         | 数值       | 设置 Linux ulimit
-   protocol       | 协议插件   | 客户端的协议插件，推荐使用[auth_sha1_v4, auth_aes128_md5, auth_aes128_sha1][P]
-   obfs           | 混淆插件   | 客户端的混淆插件，推荐使用[plain, http_simple, http_post, tls1.2_ticket_auth][P]
+   protocol       | 协议插件   | [协议插件][P]，推荐使用```orgin, auth_aes128_md5, auth_aes128_sha1, auth_chain_a```
+   obfs           | 混淆插件   | [混淆插件][P]，推荐使用```plain, http_simple, http_post, tls1.2_ticket_auth```
 
 
-  [1]: https://github.com/breakwa11/shadowsocks-libev
-  [2]: https://bintray.com/aa65535/opkg/shadowsocks-libev/_latestVersion "预编译 IPK 下载"
-  [B]: https://api.bintray.com/packages/aa65535/opkg/shadowsocks-libev/images/download.svg
+  [1]: https://github.com/shadowsocksr/shadowsocksr-libev
   [3]: https://github.com/chenhw2/luci-app-shadowsocksr
-  [E]: https://github.com/shadowsocks/luci-app-shadowsocks/wiki/Encrypt-method
+  [E]: http://shadowsocks.org/en/spec/Stream-Ciphers.html
   [F]: https://github.com/shadowsocks/shadowsocks/wiki/TCP-Fast-Open
   [S]: https://wiki.openwrt.org/doc/howto/obtain.firmware.sdk
-  [P]: https://github.com/breakwa11/shadowsocks-rss/wiki/obfs
+  [P]: https://github.com/breakwa11/shadowsocks-rss/blob/master/ssr.md
