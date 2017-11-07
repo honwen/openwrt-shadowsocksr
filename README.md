@@ -68,3 +68,8 @@ ShadowsocksR-libev for OpenWrt
   [F]: https://github.com/shadowsocks/shadowsocks/wiki/TCP-Fast-Open
   [S]: https://wiki.openwrt.org/doc/howto/obtain.firmware.sdk
   [P]: https://github.com/shadowsocksrr/shadowsocks-rss/blob/master/ssr.md
+
+错误排除
+---
+   错误字样: ```error: MBEDTLS_CAMELLIA_C required```  
+   解决方案: ```rm -rf package/libs/mbedtls```
