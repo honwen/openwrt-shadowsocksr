@@ -33,43 +33,24 @@ include $(INCLUDE_DIR)/package.mk
 define Package/shadowsocksr-libev/Default
 	SECTION:=net
 	CATEGORY:=Network
-	TITLE:=Lightweight Secured Socks5 Proxy $(2)
+	TITLE:=Lightweight Secured Socks5 Proxy
 	URL:=https://github.com/shadowsocksrr/shadowsocksr-libev
-	VARIANT:=$(1)
-	DEPENDS:=$(3) +libpcre +libpthread
+	DEPENDS:=+libmbedtls +libpcre +libpthread
 endef
 
-Package/shadowsocksr-libev = $(call Package/shadowsocksr-libev/Default,openssl,(OpenSSL),+libopenssl +zlib)
-Package/shadowsocksr-libev-mbedtls = $(call Package/shadowsocksr-libev/Default,mbedtls,(mbedTLS),+libmbedtls)
-Package/shadowsocksr-libev-polarssl = $(call Package/shadowsocksr-libev/Default,polarssl,(PolarSSL),+libpolarssl)
+Package/shadowsocksr-libev = $(call Package/shadowsocksr-libev/Default)
 
 define Package/shadowsocksr-libev/description
 shadowsocksr-libev is a lightweight secured socks5 proxy for embedded devices and low end boxes.
 endef
 
-Package/shadowsocksr-libev-mbedtls/description = $(Package/shadowsocksr-libev/description)
-Package/shadowsocksr-libev-polarssl/description = $(Package/shadowsocksr-libev/description)
-
-CONFIGURE_ARGS += --disable-ssp --disable-documentation --disable-assert
-
-ifeq ($(BUILD_VARIANT),mbedtls)
-	CONFIGURE_ARGS += --with-crypto-library=mbedtls
-endif
-
-ifeq ($(BUILD_VARIANT),polarssl)
-	CONFIGURE_ARGS += --with-crypto-library=polarssl
-endif
+CONFIGURE_ARGS += --disable-ssp --disable-documentation --disable-assert --with-crypto-library=mbedtls
 
 define Package/shadowsocksr-libev/install
 	$(INSTALL_DIR) $(1)/usr/bin
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/src/ss-local  $(1)/usr/bin/ssr-local
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/src/ss-redir  $(1)/usr/bin/ssr-redir
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/src/ss-local $(1)/usr/bin/ssr-local
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/src/ss-redir $(1)/usr/bin/ssr-redir
 	$(LN) ssr-local $(1)/usr/bin/ssr-tunnel
 endef
 
-Package/shadowsocksr-libev-mbedtls/install = $(Package/shadowsocksr-libev/install)
-Package/shadowsocksr-libev-polarssl/install = $(Package/shadowsocksr-libev/install)
-
 $(eval $(call BuildPackage,shadowsocksr-libev))
-$(eval $(call BuildPackage,shadowsocksr-libev-mbedtls))
-$(eval $(call BuildPackage,shadowsocksr-libev-polarssl))
