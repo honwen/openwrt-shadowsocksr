@@ -1,0 +1,51 @@
+From 0d314fadf033d25f265bf795216de200d01bfa37 Mon Sep 17 00:00:00 2001
+From: hwchan <https://github.com/chenhw2>
+Date: Tue, 6 Feb 2018 03:03:02 +0800
+Subject: [PATCH 1/2] Refine Usage
+
+---
+ src/utils.c | 21 +++++++++++++++++++--
+ 1 file changed, 19 insertions(+), 2 deletions(-)
+
+diff --git a/src/utils.c b/src/utils.c
+index 94f8a83..01bcbac 100644
+--- a/src/utils.c
++++ b/src/utils.c
+@@ -258,8 +258,6 @@ usage()
+ {
+     printf("\n");
+     printf("shadowsocks-libev %s with %s\n\n", VERSION, USING_CRYPTO);
+-    printf(
+-        "  maintained by Max Lv <max.c.lv@gmail.com> and Linus Yang <laokongzi@gmail.com>\n\n");
+     printf("  usage:\n\n");
+ #ifdef MODULE_LOCAL
+     printf("    ss-local\n");
+@@ -298,6 +296,25 @@ usage()
+     printf(
+         "                                  The default cipher is rc4-md5.\n");
+     printf("\n");
++    printf(
++        "       -o <obfs>                  Obfs of your remote server: plain,\n");
++    printf(
++        "                                  http_simple, http_post and tls1.2_ticket_auth.\n");
++    printf(
++        "       -g <obfs-param>            Obfs-Param of your remote server.\n");
++    printf(
++        "       -O <protocol>              Protocol of your remote server: orgin,\n");
++    printf(
++        "                                  auth_sha1, auth_sha1_v2, auth_sha1_v4,\n");
++    printf(
++        "                                  auth_aes128_md5, auth_aes128_sha1,\n");
++    printf(
++        "                                  auth_chain_a, auth_chain_b, auth_chain_c,\n");
++    printf(
++        "                                  auth_chain_d, auth_chain_e and auth_chain_f.\n");
++    printf(
++        "       -G <protocol-param>        Protocol-Param of your remote server.\n");
++    printf("\n");
+     printf(
+         "       [-a <user>]                Run as another user.\n");
+     printf(
+-- 
+2.16.1
+

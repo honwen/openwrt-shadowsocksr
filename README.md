@@ -69,6 +69,62 @@ ShadowsocksR-libev for OpenWrt
   [S]: https://wiki.openwrt.org/doc/howto/obtain.firmware.sdk
   [P]: https://github.com/shadowsocksrr/shadowsocks-rss/blob/master/ssr.md
 
+用法
+---
+
+ - 以 ssr-redir 为例
+
+   ```
+   # ssr-redir -h
+   
+   shadowsocks-libev 2018-01-20 with mbed TLS 2.6.0
+   
+     usage:
+   
+       ss-redir
+   
+          -s <server_host>           Host name or IP address of your remote server.
+          -p <server_port>           Port number of your remote server.
+          -l <local_port>            Port number of your local server.
+          -k <password>              Password of your remote server.
+          -m <encrypt_method>        Encrypt method: table, rc4, rc4-md5,
+                                     aes-128-cfb, aes-192-cfb, aes-256-cfb,
+                                     aes-128-ctr, aes-192-ctr, aes-256-ctr,
+                                     bf-cfb, camellia-128-cfb, camellia-192-cfb,
+                                     camellia-256-cfb, cast5-cfb, des-cfb,
+                                     idea-cfb, rc2-cfb, seed-cfb, salsa20,
+                                     chacha20 and chacha20-ietf.
+                                     The default cipher is rc4-md5.
+   
+          -o <obfs>                  Obfs of your remote server: plain,
+                                     http_simple, http_post and tls1.2_ticket_auth.
+          -g <obfs-param>            Obfs-Param of your remote server.
+          -O <protocol>              Protocol of your remote server: orgin,
+                                     auth_sha1, auth_sha1_v2, auth_sha1_v4,
+                                     auth_aes128_md5, auth_aes128_sha1,
+                                     auth_chain_a, auth_chain_b, auth_chain_c,
+                                     auth_chain_d, auth_chain_e and auth_chain_f.
+          -G <protocol-param>        Protocol-Param of your remote server.
+   
+          [-a <user>]                Run as another user.
+          [-f <pid_file>]            The file path to store pid.
+          [-t <timeout>]             Socket timeout in seconds.
+          [-c <config_file>]         The path to config file.
+          [-n <number>]              Max number of open files.
+          [-b <local_address>]       Local address to bind.
+   
+          [-u]                       Enable UDP relay.
+                                     TPROXY is required in redir mode.
+          [-U]                       Enable UDP relay and disable TCP relay.
+   
+          [--mtu <MTU>]              MTU of your network interface.
+          [--mptcp]                  Enable Multipath TCP on MPTCP Kernel.
+   
+          [-v]                       Verbose mode.
+          [-h, --help]               Print this message.
+   
+   ```
+
 错误排除
 ---
    错误字样: ```error: MBEDTLS_CAMELLIA_C required```  

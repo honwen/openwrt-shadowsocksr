@@ -1,0 +1,43 @@
+From 8f49588e2f8f71b0aa9875f446c4814b2ff9f53c Mon Sep 17 00:00:00 2001
+From: hwchan <https://github.com/chenhw2>
+Date: Tue, 6 Feb 2018 03:03:06 +0800
+Subject: [PATCH 2/2] Refine Version
+
+---
+ CMakeLists.txt | 4 ++--
+ configure.ac   | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index fef8387..9e7268e 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -10,10 +10,10 @@ set(CMAKE_LEGACY_CYGWIN_WIN32 0)
+ 
+ cmake_minimum_required(VERSION 2.6)
+ set(PROJECT_NAME shadowsocks-libev)
+-set(RELEASE_DATE 2015-09-03)
++set(RELEASE_DATE 2018-01-20)
+ project(${PROJECT_NAME})
+ 
+-set(VERSION 2.5.6)
++set(VERSION 2018-01-20)
+ 
+ 
+ set(with_crypto_library "openssl" CACHE STRING "build with the given crypto library, TYPE=openssl|polarssl|mbedtls default=openssl")
+diff --git a/configure.ac b/configure.ac
+index 6586f2b..68dfe63 100755
+--- a/configure.ac
++++ b/configure.ac
+@@ -2,7 +2,7 @@ dnl                                               -*- Autoconf -*-
+ dnl Process this file with autoconf to produce a configure script.
+ 
+ AC_PREREQ([2.67])
+-AC_INIT([shadowsocks-libev], [2.5.6], [max.c.lv@gmail.com])
++AC_INIT([shadowsocks-libev], [2018-01-20], [max.c.lv@gmail.com])
+ AC_CONFIG_SRCDIR([src/encrypt.c])
+ AC_CONFIG_HEADERS([config.h])
+ AC_CONFIG_AUX_DIR(auto)
+-- 
+2.16.1
+
