@@ -18,9 +18,7 @@ ShadowsocksR-libev for OpenWrt
    客户端/
    └── usr/
        └── bin/
-           ├── ssr-local       // 提供 SOCKS 代理
            ├── ssr-redir       // 提供透明代理, 从 v2.2.0 开始支持 UDP
-           └── ssr-tunnel      // 提供端口转发, 可用于 DNS 查询
    ```
 
 编译

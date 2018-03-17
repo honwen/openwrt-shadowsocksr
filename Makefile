@@ -28,7 +28,7 @@ include $(INCLUDE_DIR)/package.mk
 define Package/shadowsocksr-libev/Default
 	SECTION:=net
 	CATEGORY:=Network
-	TITLE:=Lightweight Secured Socks5 Proxy
+	TITLE:=Lightweight Secured Socks5 Proxy (for Tiny)
 	URL:=https://github.com/shadowsocksrr/shadowsocksr-libev
 	DEPENDS:=+libmbedtls +libpcre +libpthread
 endef
@@ -43,9 +43,7 @@ CONFIGURE_ARGS += --disable-ssp --disable-documentation --disable-assert --with-
 
 define Package/shadowsocksr-libev/install
 	$(INSTALL_DIR) $(1)/usr/bin
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/src/ss-local $(1)/usr/bin/ssr-local
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/src/ss-redir $(1)/usr/bin/ssr-redir
-	$(LN) ssr-local $(1)/usr/bin/ssr-tunnel
 endef
 
 $(eval $(call BuildPackage,shadowsocksr-libev))
