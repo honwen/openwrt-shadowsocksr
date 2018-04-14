@@ -17,11 +17,11 @@ index fef8387..9e7268e 100644
  cmake_minimum_required(VERSION 2.6)
  set(PROJECT_NAME shadowsocks-libev)
 -set(RELEASE_DATE 2015-09-03)
-+set(RELEASE_DATE 2018-01-20)
++set(RELEASE_DATE 2018-03-07)
  project(${PROJECT_NAME})
  
 -set(VERSION 2.5.6)
-+set(VERSION 2018-01-20)
++set(VERSION 2018-03-07)
  
  
  set(with_crypto_library "openssl" CACHE STRING "build with the given crypto library, TYPE=openssl|polarssl|mbedtls default=openssl")
@@ -34,7 +34,7 @@ index 6586f2b..68dfe63 100755
  
  AC_PREREQ([2.67])
 -AC_INIT([shadowsocks-libev], [2.5.6], [max.c.lv@gmail.com])
-+AC_INIT([shadowsocks-libev], [2018-01-20], [max.c.lv@gmail.com])
++AC_INIT([shadowsocks-libev], [2018-03-07], [max.c.lv@gmail.com])
  AC_CONFIG_SRCDIR([src/encrypt.c])
  AC_CONFIG_HEADERS([config.h])
  AC_CONFIG_AUX_DIR(auto)

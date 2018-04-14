@@ -77,7 +77,7 @@ ShadowsocksR-libev for OpenWrt
    ```
    # ssr-redir -h
    
-   shadowsocks-libev 2018-01-20 with mbed TLS 2.6.0
+   shadowsocks-libev 2018-03-07 with mbed TLS 2.6.0
    
      usage:
    
