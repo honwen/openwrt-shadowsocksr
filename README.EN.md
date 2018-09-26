@@ -1,89 +1,86 @@
 ShadowsocksR-libev for OpenWrt
 ===
 
-简介 [ENGLISH README][R]
+Introduction
 ---
 
- 本项目是 [shadowsocksr-libev][1] 在 OpenWrt 上的移植  
+ This project it [shadowsocksr-libev][1] make file for LEDE/OpenWrt  
 
-特性
+Features
 ---
 
-软件包只包含 [shadowsocksr-libev][1] 的可执行文件, 可与 [luci-app-shadowsocksr][3] 搭配使用  
-可编译两种版本  
+Package contains only [shadowsocksr-libev][1]
 
  - shadowsocksr-libev
 
    ```
-   客户端/
+   /
    └── usr/
        └── bin/
-           ├── ssr-local       // 提供 SOCKS 代理
-           ├── ssr-redir       // 提供透明代理, 从 v2.2.0 开始支持 UDP
-           └── ssr-tunnel      // 提供端口转发, 可用于 DNS 查询
+           ├── ssr-local       // SOCKS Proxy
+           ├── ssr-redir       // Transparent proxy with UDP support
+           └── ssr-tunnel      // Provide port forwarding for DNS queries
    ```
 
-编译
+Compile
 ---
 
- - 从 OpenWrt 的 [SDK][S] 编译
+ - Compile with OpenWrt [SDK][S]
 
    ```bash
-   # 以 ar71xx 平台为例
+   # Taking AR71XX platform as an example
    tar xjf OpenWrt-SDK-ar71xx-for-linux-x86_64-gcc-4.8-linaro_uClibc-0.9.33.2.tar.bz2
    cd OpenWrt-SDK-ar71xx-*
-   # 添加 feeds
-   git clone https://github.com/shadowsocks/openwrt-feeds.git package/feeds
-   # 获取 shadowsocks-libev Makefile
-   git clone https://github.com/chenhw2/openwrt-shadowsocksr.git package/feeds/shadowsocksr-libev
-   # 选择要编译的包 Network -> shadowsocks-libev
+   # Add feeds
+   git clone https://github.com/paulgit/openwrt-feeds.git package/feeds
+   # Get shadowsocks-libev Makefile
+   git clone https://github.com/paulgit/openwrt-shadowsocksr.git package/feeds/shadowsocksr-libev
+   # Select packages to compile Network -> shadowsocksr-libev (note new static link options)
    make menuconfig
-   # 开始编译
+   # Start compiling
    make package/shadowsocksr-libev/compile V=99
    ```
 
-配置
+Configuration
 ---
 
-   软件包本身并不包含配置文件, 配置文件内容为 JSON 格式, 支持的键:  
+   The package itself does not contain a configuration file, the configuration file format is JSON, and supports the following keys:  
 
-   键名           | 数据类型   | 说明
+   Key Name       | Data Type  | Descriptions
    ---------------|------------|-----------------------------------------------
-   server         | 字符串     | 服务器地址, 可以是 IP 或者域名
-   server_port    | 数值       | 服务器端口号, 小于 65535
-   local_address  | 字符串     | 本地绑定的 IP 地址, 默认 127.0.0.1
-   local_port     | 数值       | 本地绑定的端口号, 小于 65535
-   password       | 字符串     | 服务端设置的密码
-   method         | 字符串     | 加密方式, [详情参考][E]
-   timeout        | 数值       | 超时时间（秒）, 默认 60
-   fast_open      | 布尔值     | 是否启用 [TCP-Fast-Open][F], 只适用于 ssr-local
-   nofile         | 数值       | 设置 Linux ulimit
-   protocol       | 字符串     | [协议插件][P], 推荐使用 ```orgin, auth_aes128_{md5, sha1}, auth_chain_{a, b, c, d, e, f}```
-   obfs           | 字符串     | [混淆插件][P], 推荐使用 ```plain, http_{simple, post}, tls1.2_ticket_auth```
+   server         | String     | Server address, can be IP or domain name
+   server_port    | Number     | Server port number, less than 65535
+   local_address  | String     | Local bound IP address, default 127.0.0.1
+   local_port     | Number     | Local bound port number less than 65535
+   password       | String     | Server password
+   method         | String     | Encryption method, [Details][E]
+   timeout        | Number     | Timeout Time (seconds), default 60
+   fast_open      | Boolean    | Whether [TCP-Fast-Open][F] is enabled and applies only to ssr-local
+   nofile         | Number     | Setup Linux ulimit
+   protocol       | String     | [Protocol Plugin][P], Recommended to use ```orgin, auth_aes128_{md5, sha1}, auth_chain_{a, b, c, d, e, f}```
+   obfs           | String     | [Obsfuscation Plugin][P], Recommended to use ```plain, http_{simple, post}, tls1.2_ticket_auth```
 
 
   [1]: https://github.com/shadowsocksrr/shadowsocksr-libev/tree/Akkariiin/master
-  [3]: https://github.com/chenhw2/luci-app-shadowsocksr
   [E]: http://shadowsocks.org/en/spec/Stream-Ciphers.html
   [F]: https://github.com/shadowsocks/shadowsocks/wiki/TCP-Fast-Open
   [S]: https://wiki.openwrt.org/doc/howto/obtain.firmware.sdk
   [P]: https://github.com/shadowsocksrr/shadowsocks-rss/blob/master/ssr.md
-  [R]: README.EN.md
 
-用法
+Usage
 ---
 
- - 以 ssr-redir 为例
+ - Taking ssr-redir as an example
 
    ```
    # ssr-redir -h
-   
-   shadowsocks-libev 2018-03-07 with mbed TLS 2.6.0
-   
+
+   shadowsocks-libev 2018-03-07 with mbed TLS 2.8.0
+
      usage:
-   
+
        ss-redir
-   
+
           -s <server_host>           Host name or IP address of your remote server.
           -p <server_port>           Port number of your remote server.
           -l <local_port>            Port number of your local server.
@@ -96,7 +93,7 @@ ShadowsocksR-libev for OpenWrt
                                      idea-cfb, rc2-cfb, seed-cfb, salsa20,
                                      chacha20 and chacha20-ietf.
                                      The default cipher is rc4-md5.
-   
+
           -o <obfs>                  Obfs of your remote server: plain,
                                      http_simple, http_post and tls1.2_ticket_auth.
           -g <obfs-param>            Obfs-Param of your remote server.
@@ -106,27 +103,27 @@ ShadowsocksR-libev for OpenWrt
                                      auth_chain_a, auth_chain_b, auth_chain_c,
                                      auth_chain_d, auth_chain_e and auth_chain_f.
           -G <protocol-param>        Protocol-Param of your remote server.
-   
+
           [-a <user>]                Run as another user.
           [-f <pid_file>]            The file path to store pid.
           [-t <timeout>]             Socket timeout in seconds.
           [-c <config_file>]         The path to config file.
           [-n <number>]              Max number of open files.
           [-b <local_address>]       Local address to bind.
-   
+
           [-u]                       Enable UDP relay.
                                      TPROXY is required in redir mode.
           [-U]                       Enable UDP relay and disable TCP relay.
-   
+
           [--mtu <MTU>]              MTU of your network interface.
           [--mptcp]                  Enable Multipath TCP on MPTCP Kernel.
-   
+
           [-v]                       Verbose mode.
           [-h, --help]               Print this message.
-   
+
    ```
 
-错误排除
+Exclude Error
 ---
-   错误字样: ```error: MBEDTLS_CAMELLIA_C required```  
-   解决方案: ```rm -rf package/libs/mbedtls```
+   Error Message: ```error: MBEDTLS_CAMELLIA_C required```  
+   Solution: ```rm -rf package/libs/mbedtls```
